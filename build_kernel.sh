@@ -34,7 +34,7 @@ fi
 # Shallow clone of Proton Clang to minimize network traffic
 if [ ! -d "${TOOLCHAIN_DIR}" ]; then
     echo "  -> Cloning  Clang..."
-   wget -qO- https://github.com/ZyCromerZ/Clang/releases/download/20.0.0git-20241222-release/Clang-20.0.0git-20241222.tar.gz | tar -xzf - -C "${ANYKERNEL_DIR}"
+   wget -qO- https://github.com/ZyCromerZ/Clang/releases/download/20.0.0git-20241222-release/Clang-20.0.0git-20241222.tar.gz | tar -xzf - -C "${TOOLCHAIN_DIR}"
 fi
 
 # Clone the AnyKernel3 template packager
