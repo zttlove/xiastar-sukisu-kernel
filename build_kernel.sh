@@ -81,7 +81,7 @@ fi
 echo "[4/6] Initializing Kbuild configuration..."
 # Find the exact path of the requested defconfig
 echo "  -> Searching for defconfig: ${DEFCONFIG_FILE}..."
-DEFCONFIG_PATH=$(find arch/arm64/configs/voder/ -name "${DEFCONFIG_FILE}" | head -n 1 | sed 's|arch/arm64/configs/||')
+DEFCONFIG_PATH=$(find arch/arm64/configs/vendor/ -name "${DEFCONFIG_FILE}" | head -n 1 | sed 's|arch/arm64/configs/||')
 
 if [ -z "${DEFCONFIG_PATH}" ]; then
     echo "Critical Error: Configuration file (${DEFCONFIG_FILE}) not found in the source tree!"
