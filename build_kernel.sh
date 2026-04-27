@@ -84,11 +84,11 @@ echo "[4/6] Initializing Kbuild configuration..."
 echo "  -> Searching for defconfig: ${DEFCONFIG_FILE}..."
 DEFCONFIG_PATH=$(find arch/arm64/configs/vendor/ -name "${DEFCONFIG_FILE}" | head -n 1 | sed 's|arch/arm64/configs/||')
 
-if [ -z "${DEFCONFIG_PATH}" ]; then
+if [ -z "/vendor/star_defconfig" ]; then
     echo "Critical Error: Configuration file (${DEFCONFIG_FILE}) not found in the source tree!"
     exit 1
 fi
-echo "  -> Successfully found defconfig: ${DEFCONFIG_PATH}"
+echo "  -> Successfully found defconfig: /vendor/star_defconfig"
 
 # Full clean of the source tree and old artifacts
 make O="${OUT_DIR}" ARCH="${ARCH}" mrproper
