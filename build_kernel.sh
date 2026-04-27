@@ -21,7 +21,7 @@ TIMESTAMP="$(date +"%Y%m%d_%H%M")"
 CORES="$(nproc --all)"
 
 # Get the defconfig from GitHub Actions input. Fallback to star-qgki if empty.
-DEFCONFIG_FILE="${DEVICE_CONFIG:-star_defconfig}"
+DEFCONFIG_FILE="${DEVICE_CONFIG:-star-qgki_defconfig}"
 
 echo "[1/6] Cloning repositories and toolchain..."
 
