@@ -98,7 +98,7 @@ make O="${OUT_DIR}" ARCH="${ARCH}" CC="${CC}" \
     CROSS_COMPILE="${CROSS_COMPILE}" \
     CROSS_COMPILE_COMPAT="${CROSS_COMPILE_COMPAT}" \
     LLVM=1 LLVM_IAS=1 \
-    "${DEFCONFIG_PATH}"
+    "/vendor/star_defconfig"
 
 echo "[5/6] Starting multi-threaded compilation (LLVM/LTO)..."
 # Call the build system, delegating full authority to the LLVM toolchain
