@@ -34,13 +34,13 @@ fi
 # Shallow clone of Proton Clang to minimize network traffic
 if [ ! -d "${TOOLCHAIN_DIR}" ]; then
     echo "  -> Cloning Proton Clang..."
-    git clone --depth=1 https://github.com/kdrag0n/proton-clang.git "${TOOLCHAIN_DIR}"
+   wget -qO- https://github.com/ZyCromerZ/Clang/releases/download/20.0.0git-20241222-release/Clang-20.0.0git-20241222.tar.gz | tar -xzf - -C "${ANYKERNEL_DIR}"
 fi
 
 # Clone the AnyKernel3 template packager
 if [ ! -d "${ANYKERNEL_DIR}" ]; then
     echo "  -> Cloning AnyKernel3..."
-    wget -qO- https://github.com/ZyCromerZ/Clang/releases/download/20.0.0git-20241222-release/Clang-20.0.0git-20241222.tar.gz | tar -xzf - -C "${ANYKERNEL_DIR}"
+     git clone --depth=1 https://github.com/osm0sis/AnyKernel3.git "${ANYKERNEL_DIR}"
 fi
 
 echo "[2/6] Exporting environment variables (Kbuild Compiler Directives)..."
