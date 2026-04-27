@@ -10,7 +10,7 @@ set -e
 # Initialize directory variables
 WORKSPACE_DIR="$(pwd)"
 KERNEL_DIR="${WORKSPACE_DIR}/kernel_xiaomi_mars"
-TOOLCHAIN_DIR="${WORKSPACE_DIR}/proton-clang"
+TOOLCHAIN_DIR="${WORKSPACE_DIR}/clang"
 ANYKERNEL_DIR="${WORKSPACE_DIR}/AnyKernel3"
 OUT_DIR="${KERNEL_DIR}/out"
 
