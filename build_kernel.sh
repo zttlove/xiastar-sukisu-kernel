@@ -18,7 +18,7 @@ OUT_DIR="${KERNEL_DIR}/out"
 ARCH="arm64"
 KERNEL_VERSION="5.4-Proton-SuSFS"
 TIMESTAMP="$(date +"%Y%m%d_%H%M")"
-CORES="$(nproc --all)"
+CORES="$(nproc --all) LD=ld.lld LLVM=1"
 
 # Get the defconfig from GitHub Actions input. Fallback to star-qgki if empty.
 DEFCONFIG_FILE="${DEVICE_CONFIG:-star-qgki_defconfig}"
