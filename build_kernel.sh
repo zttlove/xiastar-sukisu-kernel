@@ -33,7 +33,7 @@ fi
 
 # Shallow clone of Proton Clang to minimize network traffic
 if [ ! -d "${TOOLCHAIN_DIR}" ]; then
-    echo "  -> Cloning  Clang..."
+    echo "  -> Cloning Clang..."
    wget -qO- https://github.com/ZyCromerZ/Clang/releases/download/20.0.0git-20241222-release/Clang-20.0.0git-20241222.tar.gz | tar -xzf - -C "${TOOLCHAIN_DIR}"
 fi
 
