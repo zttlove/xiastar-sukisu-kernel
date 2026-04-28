@@ -10,7 +10,7 @@ set -e
 # Initialize directory variables
 WORKSPACE_DIR="$(pwd)"
 KERNEL_DIR="${WORKSPACE_DIR}/kernel_xiaomi_mars"
-TOOLCHAIN_DIR="${WORKSPACE_DIR}/clang"
+TOOLCHAIN_DIR="${WORKSPACE_DIR}/proton-clang"
 ANYKERNEL_DIR="${WORKSPACE_DIR}/AnyKernel3"
 OUT_DIR="${KERNEL_DIR}/out"
 
@@ -18,7 +18,7 @@ OUT_DIR="${KERNEL_DIR}/out"
 ARCH="arm64"
 KERNEL_VERSION="5.4-Proton-SuSFS"
 TIMESTAMP="$(date +"%Y%m%d_%H%M")"
-CORES="$(nproc --all) "
+CORES="$(nproc --all)"
 
 # Get the defconfig from GitHub Actions input. Fallback to star-qgki if empty.
 DEFCONFIG_FILE="${DEVICE_CONFIG:-star-qgki_defconfig}"
@@ -28,28 +28,19 @@ echo "[1/6] Cloning repositories and toolchain..."
 # Clone the kernel source tree
 if [ ! -d "${KERNEL_DIR}" ]; then
     echo "  -> Cloning kernel_xiaomi_mars (branch: twelve)..."
-    git clone --depth=1 https://github.com/zttlove/android_kernel_xiaomi_sm8350-Voyager.git -b miui-t "${KERNEL_DIR}"
+    git clone --depth=1 https://github.com/palazik/kernel_xiaomi_mars.git -b twelve "${KERNEL_DIR}"
 fi
 
 # Shallow clone of Proton Clang to minimize network traffic
 if [ ! -d "${TOOLCHAIN_DIR}" ]; then
-    echo "  -> Cloning Clang..."
-   mkdir -p "${TOOLCHAIN_DIR}"  # 关键：创建目录，父目录不存在也能自动创建
-   wget -qO- https://github.com/ZyCromerZ/Clang/releases/download/20.0.0git-20241222-release/Clang-20.0.0git-20241222.tar.gz | tar -xzf - -C "${TOOLCHAIN_DIR}"
+    echo "  -> Cloning Proton Clang..."
+    git clone --depth=1 https://github.com/kdrag0n/proton-clang.git "${TOOLCHAIN_DIR}"
 fi
- echo "  -> Download Gcc-aosp..." 
-            mkdir gcc-64
-            wget -O gcc-aarch64.tar.gz https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/+archive/refs/tags/android-12.1.0_r27.tar.gz
-            tar -C gcc-64/ -zxvf gcc-aarch64.tar.gz
-           
-          mkdir gcc-32
-            wget -O gcc-arm.tar.gz https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/+archive/refs/tags/android-12.1.0_r27.tar.gz
-            tar -C gcc-32/ -zxvf gcc-arm.tar.gz
-        
+
 # Clone the AnyKernel3 template packager
 if [ ! -d "${ANYKERNEL_DIR}" ]; then
     echo "  -> Cloning AnyKernel3..."
-     git clone --depth=1 https://github.com/osm0sis/AnyKernel3.git "${ANYKERNEL_DIR}"
+    git clone --depth=1 https://github.com/osm0sis/AnyKernel3.git "${ANYKERNEL_DIR}"
 fi
 
 echo "[2/6] Exporting environment variables (Kbuild Compiler Directives)..."
@@ -90,23 +81,31 @@ fi
 echo "[4/6] Initializing Kbuild configuration..."
 # Find the exact path of the requested defconfig
 echo "  -> Searching for defconfig: ${DEFCONFIG_FILE}..."
-DEFCONFIG_PATH=$(find arch/arm64/configs/vendor/ -name "${DEFCONFIG_FILE}" | head -n 1 | sed 's|arch/arm64/configs/||')
+DEFCONFIG_PATH=$(find arch/arm64/configs -name "${DEFCONFIG_FILE}" | head -n 1 | sed 's|arch/arm64/configs/||')
 
-if [ -z "/vendor/star_defconfig" ]; then
+if [ -z "${DEFCONFIG_PATH}" ]; then
     echo "Critical Error: Configuration file (${DEFCONFIG_FILE}) not found in the source tree!"
     exit 1
 fi
-echo "  -> Successfully found defconfig: /vendor/star_defconfig"
+echo "  -> Successfully found defconfig: ${DEFCONFIG_PATH}"
 
 # Full clean of the source tree and old artifacts
 make O="${OUT_DIR}" ARCH="${ARCH}" mrproper
 
 # Generate .config based on the selected defconfig
-make O="${OUT_DIR}" ARCH="${ARCH}" CC="${CC}"  CROSS_COMPILE="${CROSS_COMPILE}"   CROSS_COMPILE_COMPAT="${CROSS_COMPILE_COMPAT}"   LLVM=1 LLVM_IAS=1 /vendor/star_defconfig
+make O="${OUT_DIR}" ARCH="${ARCH}" CC="${CC}" \
+    CROSS_COMPILE="${CROSS_COMPILE}" \
+    CROSS_COMPILE_COMPAT="${CROSS_COMPILE_COMPAT}" \
+    LLVM=1 LLVM_IAS=1 \
+    "${DEFCONFIG_PATH}"
 
 echo "[5/6] Starting multi-threaded compilation (LLVM/LTO)..."
 # Call the build system, delegating full authority to the LLVM toolchain
-make -j"${CORES}" O="${OUT_DIR}" ARCH="${ARCH}" CC="${CC}"  CROSS_COMPILE="${CROSS_COMPILE}"  CROSS_COMPILE_COMPAT="${CROSS_COMPILE_COMPAT}"  CROSS_COMPILE_ARM32="${CROSS_COMPILE_ARM32}"  LLVM=1 LLVM_IAS=1
+make -j"${CORES}" O="${OUT_DIR}" ARCH="${ARCH}" CC="${CC}" \
+    CROSS_COMPILE="${CROSS_COMPILE}" \
+    CROSS_COMPILE_COMPAT="${CROSS_COMPILE_COMPAT}" \
+    CROSS_COMPILE_ARM32="${CROSS_COMPILE_ARM32}" \
+    LLVM=1 LLVM_IAS=1
 
 # Check for the compiled kernel
 COMPILED_IMAGE="${OUT_DIR}/arch/arm64/boot/Image"
