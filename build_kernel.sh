@@ -95,18 +95,7 @@ echo "  -> Successfully found defconfig: ${DEFCONFIG_PATH}"
 make O="${OUT_DIR}" ARCH="${ARCH}" mrproper
 
 # Generate .config based on the selected defconfig
-unset LD_LIBRARY_PATH
-unset CROSS_COMPILE
-unset AS
-unset LD
-unset CC
-unset CXX
-unset AR
-unset NM
-unset OBJCOPY
-unset OBJDUMP
-unset READELF
-unset STRIP
+which as
 make O="${OUT_DIR}" ARCH="${ARCH}" CC="${CC}" \
     CROSS_COMPILE="${CROSS_COMPILE}" \
     CROSS_COMPILE_COMPAT="${CROSS_COMPILE_COMPAT}" \
