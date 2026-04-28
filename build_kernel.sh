@@ -53,6 +53,7 @@ export CC="clang"
 export CROSS_COMPILE="aarch64-linux-gnu-"
 export CROSS_COMPILE_COMPAT="arm-linux-gnueabi-" # For vDSO on 4.19+ kernels
 export CROSS_COMPILE_ARM32="arm-linux-gnueabi-"  # Backwards compatibility
+export ARCH=arm64
 
 echo "[3/6] Lexical cleaning and source code patching (Clang strict semantics)..."
 cd "${KERNEL_DIR}"
