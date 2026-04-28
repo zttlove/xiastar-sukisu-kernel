@@ -110,7 +110,7 @@ unset STRIP
 make O="${OUT_DIR}" ARCH="${ARCH}" CC="${CC}" \
     CROSS_COMPILE="${CROSS_COMPILE}" \
     CROSS_COMPILE_COMPAT="${CROSS_COMPILE_COMPAT}" \
-    LLVM=1 LD=ld.lld \
+    LLVM=1 LLVM_IAS=1 \
     "${DEFCONFIG_PATH}"
 
 echo "[5/6] Starting multi-threaded compilation (LLVM/LTO)..."
@@ -119,7 +119,7 @@ make -j"${CORES}" O="${OUT_DIR}" ARCH="${ARCH}" CC="${CC}" \
     CROSS_COMPILE="${CROSS_COMPILE}" \
     CROSS_COMPILE_COMPAT="${CROSS_COMPILE_COMPAT}" \
     CROSS_COMPILE_ARM32="${CROSS_COMPILE_ARM32}" \
-    LLVM=1 LD=ld.lld 
+    LLVM=1 LLVM_IAS=1 
 
 # Check for the compiled kernel
 COMPILED_IMAGE="${OUT_DIR}/arch/arm64/boot/Image"
