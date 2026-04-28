@@ -11,10 +11,7 @@ on:
         type: choice
         options:
           - star-qgki_defconfig
-          - mars_defconfig
-          - renoir-qgki_defconfig
-          - odin-qgki_defconfig
-
+    
 jobs:
   build-kernel:
     name: Compilation Core
