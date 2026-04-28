@@ -34,7 +34,7 @@ fi
 # Shallow clone of Proton Clang to minimize network traffic
 if [ ! -d "${TOOLCHAIN_DIR}" ]; then
     echo "  -> Cloning Proton Clang..."
-    git clone --depth=1 https://github.com/kdrag0n/proton-clang.git "${TOOLCHAIN_DIR}"
+    git clone --depth=1 https://github.com/maxsteeel/proton-12.git "${TOOLCHAIN_DIR}"
 fi
 
 # Clone the AnyKernel3 template packager
