@@ -99,7 +99,7 @@ which as
 make O="${OUT_DIR}" ARCH="${ARCH}" CC="${CC}" \
     CROSS_COMPILE="${CROSS_COMPILE}" \
     CROSS_COMPILE_COMPAT="${CROSS_COMPILE_COMPAT}" \
-    LLVM=1 LLVM_IAS=1 ccflags=-Wno-unused-function\
+    LLVM=1 LLVM_IAS=1 CFLAGS+="-Wno-unused-function" \
     "${DEFCONFIG_PATH}"
 
 echo "[5/6] Starting multi-threaded compilation (LLVM/LTO)..."
@@ -108,7 +108,7 @@ make -j"${CORES}" O="${OUT_DIR}" ARCH="${ARCH}" CC="${CC}" \
     CROSS_COMPILE="${CROSS_COMPILE}" \
     CROSS_COMPILE_COMPAT="${CROSS_COMPILE_COMPAT}" \
     CROSS_COMPILE_ARM32="${CROSS_COMPILE_ARM32}" \
-    LLVM=1 LLVM_IAS=1 ccflags=-Wno-unused-function
+    LLVM=1 LLVM_IAS=1 CFLAGS+="-Wno-unused-function"
 
 # Check for the compiled kernel
 COMPILED_IMAGE="${OUT_DIR}/arch/arm64/boot/Image"
