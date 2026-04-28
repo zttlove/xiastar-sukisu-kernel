@@ -37,7 +37,15 @@ if [ ! -d "${TOOLCHAIN_DIR}" ]; then
    mkdir -p "${TOOLCHAIN_DIR}"  # 关键：创建目录，父目录不存在也能自动创建
    wget -qO- https://github.com/ZyCromerZ/Clang/releases/download/20.0.0git-20241222-release/Clang-20.0.0git-20241222.tar.gz | tar -xzf - -C "${TOOLCHAIN_DIR}"
 fi
-
+ echo "  -> Download Gcc-aosp..." 
+            mkdir gcc-64
+            wget -O gcc-aarch64.tar.gz https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/+archive/refs/tags/android-12.1.0_r27.tar.gz
+            tar -C gcc-64/ -zxvf gcc-aarch64.tar.gz
+           
+          mkdir gcc-32
+            wget -O gcc-arm.tar.gz https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/+archive/refs/tags/android-12.1.0_r27.tar.gz
+            tar -C gcc-32/ -zxvf gcc-arm.tar.gz
+        
 # Clone the AnyKernel3 template packager
 if [ ! -d "${ANYKERNEL_DIR}" ]; then
     echo "  -> Cloning AnyKernel3..."
