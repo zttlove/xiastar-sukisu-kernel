@@ -18,7 +18,7 @@ OUT_DIR="${KERNEL_DIR}/out"
 ARCH="arm64"
 KERNEL_VERSION="5.4-Proton-SuSFS"
 TIMESTAMP="$(date +"%Y%m%d_%H%M")"
-CORES="$(nproc --all) LD=ld.lld LLVM=1"
+CORES="$(nproc --all) "
 
 # Get the defconfig from GitHub Actions input. Fallback to star-qgki if empty.
 DEFCONFIG_FILE="${DEVICE_CONFIG:-star-qgki_defconfig}"
@@ -94,19 +94,11 @@ echo "  -> Successfully found defconfig: /vendor/star_defconfig"
 make O="${OUT_DIR}" ARCH="${ARCH}" mrproper
 
 # Generate .config based on the selected defconfig
-make O="${OUT_DIR}" ARCH="${ARCH}" CC="${CC}" \
-    CROSS_COMPILE="${CROSS_COMPILE}" \
-    CROSS_COMPILE_COMPAT="${CROSS_COMPILE_COMPAT}" \
-    LLVM=1 LLVM_IAS=1 \
-    "/vendor/star_defconfig"
+make O="${OUT_DIR}" ARCH="${ARCH}" CC="${CC}"  CROSS_COMPILE="${CROSS_COMPILE}"   CROSS_COMPILE_COMPAT="${CROSS_COMPILE_COMPAT}"   LLVM=1 LLVM_IAS=1 /vendor/star_defconfig
 
 echo "[5/6] Starting multi-threaded compilation (LLVM/LTO)..."
 # Call the build system, delegating full authority to the LLVM toolchain
-make -j"${CORES}" O="${OUT_DIR}" ARCH="${ARCH}" CC="${CC}" \
-    CROSS_COMPILE="${CROSS_COMPILE}" \
-    CROSS_COMPILE_COMPAT="${CROSS_COMPILE_COMPAT}" \
-    CROSS_COMPILE_ARM32="${CROSS_COMPILE_ARM32}" \
-    LLVM=1 LLVM_IAS=1
+make -j"${CORES}" O="${OUT_DIR}" ARCH="${ARCH}" CC="${CC}"  CROSS_COMPILE="${CROSS_COMPILE}"  CROSS_COMPILE_COMPAT="${CROSS_COMPILE_COMPAT}"  CROSS_COMPILE_ARM32="${CROSS_COMPILE_ARM32}"  LLVM=1 LLVM_IAS=1
 
 # Check for the compiled kernel
 COMPILED_IMAGE="${OUT_DIR}/arch/arm64/boot/Image"
