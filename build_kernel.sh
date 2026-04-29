@@ -28,7 +28,7 @@ echo "[1/6] Cloning repositories and toolchain..."
 # Clone the kernel source tree
 if [ ! -d "${KERNEL_DIR}" ]; then
     echo "  -> Cloning kernel_xiaomi_mars (branch: twelve)..."
-    git clone --depth=1 https://github.com/palazik/kernel_xiaomi_mars.git -b twelve "${KERNEL_DIR}"
+    git clone --depth=1 https://github.com/zttlove/kernel_xiaomi_mars.git -b twelve "${KERNEL_DIR}"
 fi
 
 # Shallow clone of Proton Clang to minimize network traffic
