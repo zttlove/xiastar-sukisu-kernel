@@ -30,9 +30,7 @@ echo "[1/6] Cloning repositories and toolchain..."
 if [ ! -d "${KERNEL_DIR}" ]; then
     echo "  -> Cloning kernel_xiaomi_star (branch: twelve)..."
     git clone --depth=1 https://github.com/zttlove/android_kernel_xiaomi_sm8350-Voyager.git -b miui-t "${KERNEL_DIR}"
-    rm -rf "${KERNEL_DIR1}"
-    git clone https://github.com/tiann/KernelSU.git "${KERNEL_DIR1}"
-fi
+   fi
 
 # Shallow clone of Proton Clang to minimize network traffic
 if [ ! -d "${TOOLCHAIN_DIR}" ]; then
