@@ -29,6 +29,8 @@ echo "[1/6] Cloning repositories and toolchain..."
 if [ ! -d "${KERNEL_DIR}" ]; then
     echo "  -> Cloning kernel_xiaomi_star (branch: twelve)..."
     git clone --depth=1 https://github.com/zttlove/android_kernel_xiaomi_sm8350-Voyager.git -b miui-t "${KERNEL_DIR}"
+    mkdir -p "kernelsu" 
+    git clone https://github.com/tiann/KernelSU.git kernelsu
 fi
 
 # Shallow clone of Proton Clang to minimize network traffic
@@ -37,6 +39,7 @@ if [ ! -d "${TOOLCHAIN_DIR}" ]; then
     mkdir -p "${TOOLCHAIN_DIR}"  # 关键：创建目录，父目录不存在也能自动创建
     wget -qO- https://github.com/ZyCromerZ/Clang/releases/download/20.0.0git-20241222-release/Clang-20.0.0git-20241222.tar.gz | tar -xzf - -C "${TOOLCHAIN_DIR}"
 fi
+
 
 # Clone the AnyKernel3 template packager
 if [ ! -d "${ANYKERNEL_DIR}" ]; then
