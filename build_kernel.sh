@@ -10,6 +10,7 @@ set -e
 # Initialize directory variables
 WORKSPACE_DIR="$(pwd)"
 KERNEL_DIR="${WORKSPACE_DIR}/kernel_xiaomi_mars"
+KERNEL_DIR1="${WORKSPACE_DIR}/kernel_xiaomi_mars/drivers/kernelsu/"
 TOOLCHAIN_DIR="${WORKSPACE_DIR}/proton-clang"
 ANYKERNEL_DIR="${WORKSPACE_DIR}/AnyKernel3"
 OUT_DIR="${KERNEL_DIR}/out"
@@ -29,8 +30,7 @@ echo "[1/6] Cloning repositories and toolchain..."
 if [ ! -d "${KERNEL_DIR}" ]; then
     echo "  -> Cloning kernel_xiaomi_star (branch: twelve)..."
     git clone --depth=1 https://github.com/zttlove/android_kernel_xiaomi_sm8350-Voyager.git -b miui-t "${KERNEL_DIR}"
-    mkdir -p "kernelsu" 
-    git clone https://github.com/tiann/KernelSU.git kernelsu
+    git clone https://github.com/tiann/KernelSU.git "${KERNEL_DIR1}"
 fi
 
 # Shallow clone of Proton Clang to minimize network traffic
